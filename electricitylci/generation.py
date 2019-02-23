@@ -181,7 +181,7 @@ def create_generation_process_df(generation_data,emissions_data,subregion):
         'Balancing Authority Name','ElementaryFlowPrimeContext',
         'Balancing Authority Code', 'Ref_Electricity_Subregion_FuelCategory'
     ]
-
+    df_list = []
     for reg in regions:
 
         print("Creating generation process database for " + reg + " ...")
@@ -198,8 +198,6 @@ def create_generation_process_df(generation_data,emissions_data,subregion):
         else:
             # This should be a egrid subregion
             database = final_database[final_database['Subregion'] == reg]
-
-        df_list = []
 
         # Initialize values
         database['TechnologicalCorrelation'] = 5
