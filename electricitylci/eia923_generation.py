@@ -176,7 +176,8 @@ def eia923_download_extract(
     # group_cols = ['Plant Id', 'Plant Name', 'State', 'YEAR']
     sum_cols = [
         'Total Fuel Consumption MMBtu',
-        'Net Generation (Megawatthours)'
+        'Elec Fuel Consumption MMBtu',
+        'Net Generation (Megawatthours)', 
     ]
     EIA_923_generation_data = eia.groupby(group_cols,
                                           as_index=False)[sum_cols].sum()
@@ -375,3 +376,5 @@ def build_generation_data(egrid_facilities_to_include=None, generation_years=Non
     all_years_gen.reset_index(drop=True, inplace=True)
 
     return all_years_gen
+
+
