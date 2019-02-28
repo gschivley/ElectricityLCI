@@ -44,7 +44,7 @@ EIA923_BASE_URL = 'https://www.eia.gov/electricity/data/eia923/'
 EIA860_BASE_URL = 'https://www.eia.gov/electricity/data/eia860/'
 
 
-# 
+#
 
 
 ##############################
