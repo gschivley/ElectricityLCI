@@ -1,5 +1,6 @@
 import os
 
+set_model_name_with_stdin = True
 
 def set_dir(directory):
     if not os.path.exists(directory): os.makedirs(directory)
