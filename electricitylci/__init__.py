@@ -1,4 +1,4 @@
-from electricitylci.model_config import model_name
+# from electricitylci.model_config import model_name
 
 def get_generation_process_df(source='egrid', regions='all'):
     """
