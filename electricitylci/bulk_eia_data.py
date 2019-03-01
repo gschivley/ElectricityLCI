@@ -1,13 +1,39 @@
+"""
+Extract hourly real-time EIA data from the bulk-download zip file
+
+"""
+
+
 import pandas as pd
 import json
 from os.path import join
+import os
+import zipfile
+import requests
 
 from electricitylci.globals import data_dir
 
 
-path = join(data_dir, 'bulk_data', 'EBA.txt')
-with open(path, 'r') as f:
-    raw_txt = f.readlines()
+def download_EBA():
+
+    url = 'http://api.eia.gov/bulk/EBA.zip'
+    r = requests.get(url)
+    os.makedirs(join(data_dir, 'bulk_data'), exist_ok=True)
+    output = open(join(data_dir, 'bulk_data', 'EBA.zip'), 'wb')
+    output.write(r.content)
+    output.close()
+
+path = join(data_dir, 'bulk_data', 'EBA.zip')
+
+try:
+    z = zipfile.ZipFile(path, 'r')
+    with z.open('EBA.txt') as f:
+        raw_txt = f.readlines()
+except FileNotFoundError:
+    download_EBA()
+    z = zipfile.ZipFile(path, 'r')
+    with z.open('EBA.txt') as f:
+        raw_txt = f.readlines()
 
 REGION_NAMES = [
     'California', 'Carolinas', 'Central',
@@ -23,19 +49,19 @@ REGION_ACRONYMS = [
 ]
 
 TOTAL_INTERCHANGE_ROWS = [
-    json.loads(row) for row in raw_txt if 'EBA.TI.H' in row
+    json.loads(row) for row in raw_txt if b'EBA.TI.H' in row
 ]
 
 NET_GEN_ROWS = [
-    json.loads(row) for row in raw_txt if 'EBA.NG.H' in row
+    json.loads(row) for row in raw_txt if b'EBA.NG.H' in row
 ]
 
 DEMAND_ROWS = [
-    json.loads(row) for row in raw_txt if 'EBA.D.H' in row
+    json.loads(row) for row in raw_txt if b'EBA.D.H' in row
 ]
 
 EXCHANGE_ROWS = [
-    json.loads(row) for row in raw_txt if 'EBA.ID.H' in row
+    json.loads(row) for row in raw_txt if b'EBA.ID.H' in row
 ]
 
 BA_TO_BA_ROWS = [
